@@ -36,8 +36,8 @@
         MAIL_MAILER=smtp
         MAIL_HOST=sandbox.smtp.mailtrap.io
         MAIL_PORT=2525
-        MAIL_USERNAME=5ce395f2683b36
-        MAIL_PASSWORD=715616dd256d93
+        MAIL_USERNAME=
+        MAIL_PASSWORD=
         MAIL_ENCRYPTION=tls
         MAIL_FROM_ADDRESS=mail@dynamicforms.com
         MAIL_FROM_NAME="${APP_NAME}"
