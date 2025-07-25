@@ -53,6 +53,14 @@
 									<span class="menu-title">Form Lists</span>
 								</a>
 							</div>
+							<div class="menu-item">
+								<a class="menu-link" href="{{ route('admin.users.index') }}">
+									<span class="menu-bullet">
+										<span class="menu-arrow"></span>
+									</span>
+									<span class="menu-title">User Submitted Form Lists</span>
+								</a>
+							</div>
 						</div>
 					</div>
 					

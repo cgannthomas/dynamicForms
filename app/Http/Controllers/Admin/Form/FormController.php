@@ -12,6 +12,8 @@ use App\Repositories\Form\FormRepository;
 use App\DataTables\Admin\FormListDataTable;
 use App\Models\Form;
 
+use Illuminate\Validation\ValidationException;
+
 class FormController extends Controller
 {
 
@@ -51,13 +53,13 @@ class FormController extends Controller
 
             
             return response()->json($newForm, 200);
-        } catch (Exception $e) {            
+        }catch (Exception $e) {            
             return response()->json([
                 'status' => false,
                 'message' => $e->getMessage(),
                 'errors' => $e,
-                'code' => $statusCode
-            ], $statusCode);
+                'code' => $e->getstatus()
+            ], $e->getstatus());
         }
     }
 
@@ -118,8 +120,8 @@ class FormController extends Controller
                 'status' => false,
                 'message' => $e->getMessage(),
                 'errors' => $e,
-                'code' => $statusCode
-            ], $statusCode);
+                'code' => $e->getstatus()
+            ], $e->getstatus());
         }
     }
 
@@ -132,7 +134,7 @@ class FormController extends Controller
             Form::destroy($id);
             return response()->json(['message' => 'Form deleted successfully!'], 200);
         } catch (Exception $e) {
-            return response()->json(['message' => $e->getMessage()], $e->getCode());
+            return response()->json(['message' => $e->getMessage()], $e->getstatus());
         }
     }
 }

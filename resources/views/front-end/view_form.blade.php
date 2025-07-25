@@ -46,13 +46,15 @@
                                                 <!--end::Label-->
                                 <!--begin::Col-->
                                 <div class="col-lg-6 fv-row fv-plugins-icon-container">
-                                    @php $required = $fields['is_required'] ? 'required' : ''; @endphp
-
+                                    @php $required = $fields['is_required'] ? 'required' : ''; 
+                                         $name = str_replace(' ', '_' , strtolower($fields['field_label']));
+                                    @endphp
+                                    
                                     @if(in_array($fields['field_type'], config('constants.INPUT_FIELD_LIST')))
-                                        <input placeholder="Enter Data" value="{{ old($fields['field_name']) }}" type="{{$fields['field_type']}}" autocomplete="{{$fields['field_name']}}" name="{{$fields['field_name']}}" class="form-control form-control-lg @error($fields['field_name']) field_required  @enderror" {{$required}}>
+                                        <input placeholder="Enter Data" value="{{ old($fields['field_name']) }}" type="{{$fields['field_type']}}" autocomplete="{{$fields['field_name']}}" name="{{$name}}" class="form-control form-control-lg @error($name) field_required  @enderror" {{$required}}>
                                     @elseif($fields['field_type'] == 'select' && $fields['form_field_multiple_options'])
                                     
-                                        <select name="{{$fields['field_name']}}" aria-label="Select a {{$fields['field_label']}}" {{$required}} data-control="select2" data-placeholder="Select a {{$fields['field_label']}}" class="form-select @error($fields['field_name']) field_required  @enderror form-select-lg select2-hidden-accessible">
+                                        <select name="{{$name}}" aria-label="Select a {{$fields['field_label']}}" {{$required}} data-control="select2" data-placeholder="Select a {{$fields['field_label']}}" class="form-select @error($name) field_required  @enderror form-select-lg select2-hidden-accessible">
                                             <option value="">Select {{$fields['field_label']}}..</option>
                                             
                                             @foreach($fields['form_field_multiple_options'] as $options)
@@ -66,14 +68,14 @@
 
                                             @foreach($fields['form_field_multiple_options'] as $options)
                                                 <label class="form-check form-check-inline form-check-solid me-5">
-                                                    <input class="form-check-input @error($fields['field_name']) field_required  @enderror" {{$required}} name="{{$fields['field_name']}}" {{$i?"" : 'checked'}}  type="radio" value="{{$options['options_value']}}">
+                                                    <input class="form-check-input @error($name) field_required  @enderror" {{$required}} name="{{$name}}" {{$i?"" : 'checked'}}  type="radio" value="{{$options['options_value']}}">
                                                     <span class="fw-bold ps-2 fs-6">{{$options['options_text']}}</span>
                                                 </label>
                                                 @php $i++; @endphp
                                             @endforeach
                                         </div>
                                     @endif
-                                    <div class="fv-plugins-message-container invalid-feedback">@error($fields['field_name']) {{$message}} @enderror</div>
+                                    <div class="fv-plugins-message-container invalid-feedback">@error($name) {{$message}} @enderror</div>
                                 </div>
                                 <!--end::Col-->
                             </div>

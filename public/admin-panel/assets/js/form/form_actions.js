@@ -1,9 +1,9 @@
 $(document).on('click', '.js-delete-btn', function( e ){
     event.preventDefault();
     var form_url = $(this).data('url');
-
+    
     Swal.fire({
-        text: 'Do you want to delete this form?',
+        text: 'Do you want to delete this?',
         icon: "warning",
         buttonsStyling: !1,
         showCancelButton: true,
@@ -27,7 +27,7 @@ $(document).on('click', '.js-delete-btn', function( e ){
                 },
                 success: function (response) {
                     Swal.fire('Deleted!', response.message, 'success');
-                    $('#form-list-table').DataTable().ajax.reload(); // optional
+                    $('#list-table').DataTable().ajax.reload(); // optional
                 },
                 error: function (response) {
                     Swal.fire('Error!', response.message ? response.message : 'Something went wrong! Try again later.' , 'error');

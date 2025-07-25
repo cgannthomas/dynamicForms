@@ -51,7 +51,8 @@ class NewFormRequest extends FormRequest
     public function messages()
     {
         return [
-            'field.required' => 'At least one field is required for an active form.'
+            'field.required' => 'At least one field is required for an active form.',
+            '*.required'    => 'This field is required'
         ];
     }
 }

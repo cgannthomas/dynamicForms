@@ -31,8 +31,7 @@
 					<div class="w-lg-500px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto">
 						<!--begin::Form-->
 						<form method="POST" action="{{ route('admin.post-login') }}" novalidate>
-                            @csrf
-							<!--begin::Heading-->
+							@csrf
 							<div class="text-center mb-10">
 								<!--begin::Title-->
 								<h1 class="text-dark mb-3">Sign In to DynamicForms</h1>
@@ -45,8 +44,13 @@
 								<label class="form-label fs-6 fw-bolder text-dark">Email</label>
 								<!--end::Label-->
 								<!--begin::Input-->
-								<input class="form-control form-control-lg {{($errors && array_key_exists('email', $errors)) ? 'is-invalid' : ''  }}" type="text" name="email" autocomplete="off" value="{{$old_input ? $old_input['email'] :'' }}" />
+								<input class="form-control form-control-lg {{($errors && $errors->has('email')) ? 'is-invalid' : ''  }}" type="text" name="email" autocomplete="off" value="{{$old_input ? $old_input['email'] :'' }}" />
 								<!--end::Input-->
+								@if($errors && $errors->has('email'))
+									<div class="fv-plugins-message-container invalid-feedback">
+										<div>{{ $errors->first('email') }}</div>
+									</div>
+								@endif
 							</div>
 							<!--end::Input group-->
 							<!--begin::Input group-->
@@ -59,8 +63,13 @@
 								</div>
 								<!--end::Wrapper-->
 								<!--begin::Input-->
-								<input class="form-control form-control-lg {{($errors && array_key_exists('password', $errors)) ? 'is-invalid' : ''  }}" type="password" name="password" autocomplete="off"  value="{{$old_input ? $old_input['password'] :'' }}"/>
+								<input class="form-control form-control-lg {{($errors && $errors->has('password')) ? 'is-invalid' : ''  }}" type="password" name="password" autocomplete="off"  value="{{$old_input ? $old_input['password'] :'' }}"/>
 								<!--end::Input-->
+								@if($errors && $errors->has('password'))
+									<div class="fv-plugins-message-container invalid-feedback">
+										<div>{{ $errors->first('password') }}</div>
+									</div>
+								@endif
 							</div>
 							<!--end::Input group-->
 							@if(session('commonError'))

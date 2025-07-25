@@ -129,9 +129,11 @@ console.log(response)
 
 					$('[name="'+ arrayStyleName +'"]').addClass('field_required');
 
-                    if(field == 'form_name' || field == 'field') {
+                    if(field == 'form_name') {
+                        $('<div class="fv-plugins-message-container invalid-feedback">'+ errors +'</div>').insertAfter($('[name="' + field +'"]')); 
+                    } 
+                    if(field == 'field') {
                         Swal.fire('Warning!', errors[0], 'error');
-                        $('<div class="fv-plugins-message-container invalid-feedback">'+ errors +'</div>').insertAfter($('[name="' + field +'"]'));
                     }
 				});
 			} else if(response.status == 419) {
@@ -154,6 +156,7 @@ console.log(response)
 });
 
 function validateForm() {
+    return true;
     var isValid = true;
     $('.field_required').removeClass('field_required');
 

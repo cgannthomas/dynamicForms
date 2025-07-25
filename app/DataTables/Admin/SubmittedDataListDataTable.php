@@ -7,7 +7,9 @@ use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class FormListDataTable extends DataTable
+use App\Models\FormSubmittedData;
+
+class SubmittedDataListDataTable extends DataTable
 {
 
     /**
@@ -20,20 +22,22 @@ class FormListDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', function (Form $form) {
-                return view('components.datatable_actions', ['id' => $form->id, 'path' => 'admin.forms', 'view_delete_only' => false]);
+            ->addColumn('action', function ($row) {
+                return view('components.datatable_actions', ['id' => $row->id, 'path' => 'admin.users', 'view_delete_only' => true]);
             })
-            ->editColumn('status', function ($row) {
-                $class = 'danger';
-                $viewText = 'In-Active';
-                if($row->is_active == 1) {
-                    $class = 'success';
-                    $viewText = 'Active';
-                }
-                return '<span class="badge badge-light-'. $class .' fs-7 fw-bolder">'. $viewText .'</span>';
+            ->addColumn('form_title', function ($row) {
+                return $row->form->form_name;
             })
-            ->addIndexColumn()
-            ->rawColumns(['status']);
+            ->filterColumn('form_title', function($query, $keyword) {
+                $query->whereHas('form', function($q) use ($keyword) {
+                    $q->where('form_name', 'like', "%{$keyword}%");
+                });
+            })
+            ->orderColumn('form_title', function ($query, $order) {
+                $query->join('forms', 'form_submitted_data.form_id', '=', 'forms.id')
+                    ->orderBy('forms.form_name', $order);
+            })
+            ->addIndexColumn();
     }
 
      /**
@@ -42,9 +46,9 @@ class FormListDataTable extends DataTable
      * @param \App\Models\Admin $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Form $model)
+    public function query(FormSubmittedData $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with('form');
     }
 
     /**
@@ -72,8 +76,8 @@ class FormListDataTable extends DataTable
                 ->title('#')
                 ->searchable(false)
                 ->orderable(false),
-            Column::make('form_name'),
-            Column::make('status')->searchable(false),
+            Column::make('form_title'),
+            Column::make('submitted_data')->searchable(false)->orderable(false),
             Column::computed('action')
                 ->width(60)
                 ->addClass('text-center'),

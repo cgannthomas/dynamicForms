@@ -30,7 +30,6 @@ class FormFieldMultipleOption extends Model
 
     public function getOptionsValueStringAttribute()
     {
-        Log::info($this->formFieldMultipleOptions->pluck('options_value'));
         return $this->formFieldMultipleOptions->pluck('options_value')->implode(',');
     }
     

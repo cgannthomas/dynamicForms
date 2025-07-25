@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
 
 use App\Models\FormField;
+use App\Models\FormSubmittedData;
 
 class Form extends Model
 {
@@ -24,5 +25,9 @@ class Form extends Model
 
     public function formfields() {
         return $this->hasMany(FormField::class);
+    }
+
+    public function formsubmitteddata() {
+        return $this->hasMany(FormSubmittedData::class);
     }
 }

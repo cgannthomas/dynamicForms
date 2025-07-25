@@ -10,6 +10,7 @@ return [
         'number'      =>  'Number',
         'select'      =>  'Select',
         'radio'       =>  'Radio',
+        'tel'          => 'Telephone'
         ],
     'INPUT_FIELD_LIST' => [
         'text','password', 'email', 'number', 'tel'
