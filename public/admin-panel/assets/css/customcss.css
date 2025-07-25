@@ -1,0 +1,12 @@
+#clone-tr, .dynamic_form_class, #clone-multiple-option-textbox {
+    display: none !important;
+}
+
+#dynamic-form td{
+    padding-left : 0 !important;
+    padding-right : 0.5rem !important;
+}
+
+.field_required {
+    border-color: red !important;
+}
