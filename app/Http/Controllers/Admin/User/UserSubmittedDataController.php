@@ -76,7 +76,6 @@ class UserSubmittedDataController extends Controller
     {
         try {
             FormSubmittedData::destroy($id);
-
             return response()->json([
                 'status' => true,
                 'message' => 'User data deleted successfully!',

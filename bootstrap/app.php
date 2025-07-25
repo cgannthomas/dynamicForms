@@ -21,9 +21,23 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        
         $exceptions->renderable(function (Throwable $e, $request) {
-            // dd(get_class($e)); Symfony\Component\HttpKernel\Exception\HttpException
-            
+            //  dd(get_class($e));
+            if($e instanceof Illuminate\Database\QueryException)
+            {
+                if ($request->ajax() || $request->expectsJson()) {
+                    return response()->json([
+                        'message' => $e->getMessage(),
+                        'code' => $e->getCode()
+                    ], $e->getCode());
+                } else {
+                    if(!$request->is('admin/*')) 
+                        return redirect()->route('dashboard')->with('error', $e->getMessage());
+
+                    return redirect()->route('admin.login')->with('commonError', $e->getMessage());
+                }
+            }
             if(isset($e->validator) && $request->ajax() && $request->expectsJson()) {
                 return response()->json([
                         'status' => 422,
@@ -31,7 +45,8 @@ return Application::configure(basePath: dirname(__DIR__))
                         'errors' => $e->validator->errors(),
                     ], 422);
             }
-            if ($e->getStatusCode() && $e->getStatusCode() === 419) { //CSRF token exception 
+            dd($e);
+            if (null !== ($e->getStatusCode()) && $e->getStatusCode() && $e->getStatusCode() === 419) { //CSRF token exception 
 
                 if ($request->ajax() || $request->expectsJson()) {
                     return response()->json([

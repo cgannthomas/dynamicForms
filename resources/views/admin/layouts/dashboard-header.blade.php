@@ -36,18 +36,6 @@
 									<!--begin::Toolbar wrapper-->
 									<div class="d-flex align-items-stretch flex-shrink-0">
 										
-										<!--begin::Activities-->
-										<div class="d-flex align-items-center ms-1 ms-lg-3">
-											<!--begin::Drawer toggle-->
-											<div class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px">
-												{{-- Notification link --}}
-												<a href="#">
-													<i class="bi bi-bell fs-2"></i> 
-												</a>
-											</div>
-											<!--end::Drawer toggle-->
-										</div>
-										<!--end::Activities-->
 										<!--begin::User-->
 										<div class="d-flex align-items-center ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
 											<!--begin::Menu wrapper-->
