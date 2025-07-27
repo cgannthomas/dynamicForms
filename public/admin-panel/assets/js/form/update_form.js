@@ -167,7 +167,7 @@ $('#update-dynamic-form').submit(function(e){
 });
 
 function validateForm() {
-return true;
+
     var isValid = true;
     $('.field_required').removeClass('field_required');
 

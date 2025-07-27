@@ -156,7 +156,6 @@ console.log(response)
 });
 
 function validateForm() {
-    return true;
     var isValid = true;
     $('.field_required').removeClass('field_required');
 
