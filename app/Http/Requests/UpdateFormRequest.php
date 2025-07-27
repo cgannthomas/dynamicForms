@@ -25,13 +25,14 @@ class UpdateFormRequest extends FormRequest
         
         $rules = [
             'form_name' => 'required|string|min:2|max:50|unique:forms,form_name,'.$inputList['id'],
+            'id'        => 'required|exists:forms,id'
         ];
         
         if((bool)$inputList['is_active'] || isset($inputList['field'])) {
             $rules = array_merge($rules, [
                                             'field' => 'required|array|bail',
                                             'field.*.field_label' => 'required|string|min:2|max:50',
-                                            'field.*.field_name' => 'required|string',
+                                            'field.*.field_name' => 'required|string||distinct',
                                             'field.*.field_type' => 'required|string',
                                         ]
                                 );
@@ -50,7 +51,8 @@ class UpdateFormRequest extends FormRequest
     public function messages()
     {
         return [
-            'field.required' => 'At least one field is required for an active form.'
+            'field.required' => 'At least one field is required for an active form.',
+            'field.*.*.distinct'   => 'Field names must be unique within a form.'
         ];
     }
 }

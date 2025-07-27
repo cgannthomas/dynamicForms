@@ -32,7 +32,7 @@ class NewFormRequest extends FormRequest
             $rules = array_merge($rules, [
                                             'field' => 'required|array|bail',
                                             'field.*.field_label' => 'required|string|min:2|max:50',
-                                            'field.*.field_name' => 'required|string',
+                                            'field.*.field_name' => 'required|string|distinct',
                                             'field.*.field_type' => 'required|string',
                                         ]
                                 );
@@ -52,7 +52,8 @@ class NewFormRequest extends FormRequest
     {
         return [
             'field.required' => 'At least one field is required for an active form.',
-            '*.required'    => 'This field is required'
+            'field.*.required'    => 'This field is required',
+            'field.*.*.distinct'   => 'Field names must be unique within a form.'
         ];
     }
 }

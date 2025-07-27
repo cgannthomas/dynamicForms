@@ -44,11 +44,11 @@
 								<label class="form-label fs-6 fw-bolder text-dark">Email</label>
 								<!--end::Label-->
 								<!--begin::Input-->
-								<input class="form-control form-control-lg {{($errors && $errors->has('email')) ? 'is-invalid' : ''  }}" type="text" name="email" autocomplete="off" value="{{$old_input ? $old_input['email'] :'' }}" />
+								<input class="form-control form-control-lg {{($errors && $errors->has('email')) ? 'is-invalid' : ''  }}" type="text" name="email" autocomplete="off" value="{{$old_input ? $old_input['email'] :'' }}" required/>
 								<!--end::Input-->
 								@if($errors && $errors->has('email'))
 									<div class="fv-plugins-message-container invalid-feedback">
-										<div>{{ $errors->first('email') }}</div>
+										<div>{{ $errors->first('email') }}</div> 
 									</div>
 								@endif
 							</div>
@@ -63,7 +63,7 @@
 								</div>
 								<!--end::Wrapper-->
 								<!--begin::Input-->
-								<input class="form-control form-control-lg {{($errors && $errors->has('password')) ? 'is-invalid' : ''  }}" type="password" name="password" autocomplete="off"  value="{{$old_input ? $old_input['password'] :'' }}"/>
+								<input class="form-control form-control-lg {{($errors && $errors->has('password')) ? 'is-invalid' : ''  }}" type="password" name="password" autocomplete="off"  value="{{$old_input ? $old_input['password'] :'' }}" required/>
 								<!--end::Input-->
 								@if($errors && $errors->has('password'))
 									<div class="fv-plugins-message-container invalid-feedback">
