@@ -53,7 +53,6 @@ class UpdateFormRequest extends FormRequest
     public function messages()
     {
         return [
-            'id.required'   => 'Unable to process the form. Please try again later.',
             'field.required' => 'At least one field is required for an active form.',
             'field.*.required' => 'This field is required.',
             'field.*.*.required'    => 'This field is required',

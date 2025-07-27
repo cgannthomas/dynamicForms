@@ -32,7 +32,7 @@
 						</div>
 						<!--end::Col-->
 					</div>
-                    {{--<input type="hidden" name="id" value="{{$formData->id}}"/> --}}
+                    <input type="hidden" name="id" value="{{$formData->id}}"/>
 					<!--end::Input group-->
                     @csrf
                     <!--begin::Input group-->

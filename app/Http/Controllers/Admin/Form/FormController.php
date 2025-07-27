@@ -106,7 +106,7 @@ class FormController extends Controller
      */
     public function update(UpdateFormRequest $request, string $id)
     {
-        // try {
+        try {
             DB::beginTransaction();
 
             $newForm = $this->formRepository->update($id, $request->all());
@@ -115,14 +115,14 @@ class FormController extends Controller
 
             
             return response()->json($newForm, 200);
-        // }  catch (Exception $e) {       
-        //     return response()->json([
-        //         'status' => false,
-        //         'message' => $e->getMessage(),
-        //         'errors' => $e,
-        //         'code' => $e->getstatus()
-        //     ], $e->getstatus());
-        // } 
+        }  catch (Exception $e) {       
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+                'errors' => $e,
+                'code' => $e->getstatus()
+            ], $e->getstatus());
+        } 
     }
 
     /**

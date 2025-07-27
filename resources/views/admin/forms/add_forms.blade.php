@@ -110,11 +110,11 @@
                 <tr id="tr-">
                     <td>
                         <input type="text" name="field[][field_label]" class="form-control field_label" placeholder="Label" />
-                        <div class="fv-plugins-message-container invalid-feedback"></div>
+                        
                     </td>
                     <td>
                         <input type="text" name="field[][field_name]" class="form-control field_name" placeholder="Name" />
-                        <div class="fv-plugins-message-container invalid-feedback"></div>
+                        
                     </td>
                     <td>
                         <select name="field[][field_type]" class="form-select field_type">
@@ -123,7 +123,7 @@
                                 <option value="{{$key}}">{{$value}}</option>
 							@endforeach
                         </select>
-                        <div class="fv-plugins-message-container invalid-feedback"></div>
+                        
                     </td>
                     <td class="multiple_option"></td>
                     <td >
