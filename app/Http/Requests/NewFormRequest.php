@@ -31,15 +31,15 @@ class NewFormRequest extends FormRequest
         if((bool)$inputList['is_active'] || isset($inputList['field'])) {
             $rules = array_merge($rules, [
                                             'field' => 'required|array|bail',
-                                            'field.*.field_label' => 'required|string|min:2|max:50',
-                                            'field.*.field_name' => 'required|string|distinct',
-                                            'field.*.field_type' => 'required|string',
+                                            'field.*.field_label' => 'required|min:2|max:50',
+                                            'field.*.field_name' => 'required|distinct',
+                                            'field.*.field_type' => 'required',
                                         ]
                                 );
             if(isset($inputList['field'])) {       
                 foreach ($inputList['field'] as $index => $fields) {
                     if (isset($fields['field_type']) && in_array($fields['field_type'], ['radio', 'checkbox', 'select'])) {
-                        $rules["field.$index.options"] = 'required|string';
+                        $rules["field.$index.options"] = 'required';
                     }
                 }
             }
@@ -52,7 +52,8 @@ class NewFormRequest extends FormRequest
     {
         return [
             'field.required' => 'At least one field is required for an active form.',
-            'field.*.required'    => 'This field is required',
+            'field.*.required' => 'This field is required.',
+            'field.*.*.required'    => 'This field is required',
             'field.*.*.distinct'   => 'Field names must be unique within a form.'
         ];
     }

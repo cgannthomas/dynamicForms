@@ -108,7 +108,6 @@ $('#update-dynamic-form').submit(function(e){
         contentType:false,
         
      success: function(response) {
-
 			if (response.errors) {
                 
 				Swal.fire({
@@ -142,22 +141,48 @@ $('#update-dynamic-form').submit(function(e){
 			}
 		},
 		error: function(response, status, error) {
-			if(response.status == 422) { 
+            if(response.status == 500) {
+                Swal.fire({
+					text: "Something went wrong. Please try again later.",
+					icon: "warning",
+					buttonsStyling: !1,
+					confirmButtonText:
+						"Ok",
+					customClass: {
+						confirmButton:
+							"btn btn-primary",
+					},
+				}).then(function (t) {
+					location.reload();
+				});
+            }else if(response.status == 422) { 
 				$.each(response.responseJSON.errors, function(field, errors){
 
                     let arrayStyleName = field.replace(/\.(\w+)/g, '[$1]');
 
 					$('[name="'+ arrayStyleName +'"]').addClass('field_required');
 
-                    if(field == 'form_name' || field == 'field') {
+                    if(field == 'id') {
+                        Swal.fire('Warning!', errors[0], 'error');
+                    }else if(field == 'form_name' || field == 'field') {
                         Swal.fire('Warning!', errors[0], 'error');
                         $('<div class="fv-plugins-message-container invalid-feedback">'+ errors +'</div>').insertAfter($('[name="' + field +'"]'));
+                    } else {
+
+                        if($('[name="'+ arrayStyleName +'"]').is("select")) {
+                            $(('[name="'+arrayStyleName+'"')).parent().append('<div class="fv-plugins-message-container invalid-feedback">'+ errors +'</div>');
+
+                            $('span .field_type').addClass('field_required');
+                        } else {
+                            $('<div class="fv-plugins-message-container invalid-feedback">'+ errors +'</div>').insertAfter('[name="'+arrayStyleName+'"'); 
+                        }
+                        
                     }
 				});
 			}
             setTimeout(function() {
                 $('div.invalid-feedback').remove();
-            }, 3000); 
+            }, 6000); 
 		}
       });
     } else {
@@ -167,7 +192,7 @@ $('#update-dynamic-form').submit(function(e){
 });
 
 function validateForm() {
-
+    
     var isValid = true;
     $('.field_required').removeClass('field_required');
 

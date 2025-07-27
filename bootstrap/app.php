@@ -23,7 +23,6 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions): void {
         
         $exceptions->renderable(function (Throwable $e, $request) {
-            //  dd(get_class($e));
             if($e instanceof Illuminate\Database\QueryException)
             {
                 if ($request->ajax() || $request->expectsJson()) {
@@ -37,17 +36,13 @@ return Application::configure(basePath: dirname(__DIR__))
 
                     return redirect()->route('admin.login')->with('commonError', $e->getMessage());
                 }
-            }
-            if(isset($e->validator) && $request->ajax() && $request->expectsJson()) {
+            }else if(isset($e->validator) && $request->ajax() && $request->expectsJson()) { //validation
                 return response()->json([
                         'status' => 422,
                         'message' => 'Validation failed.',
                         'errors' => $e->validator->errors(),
                     ], 422);
-            }
-            dd($e);
-            if (null !== ($e->getStatusCode()) && $e->getStatusCode() && $e->getStatusCode() === 419) { //CSRF token exception 
-
+            }else if (null !== ($e->getStatusCode()) && $e->getStatusCode() && $e->getStatusCode() === 419) { //CSRF token exception 
                 if ($request->ajax() || $request->expectsJson()) {
                     return response()->json([
                         'message' => 'Session expired! Please refresh the page.',
@@ -60,6 +55,18 @@ return Application::configure(basePath: dirname(__DIR__))
                     return redirect()->route('admin.login')->with('commonError', 'Your session has expired. Please reload your page.');
                 }
                 
+            } else {
+                if ($request->ajax() || $request->expectsJson()) {
+                    return response()->json([
+                        'message' => $e->getMessage(),
+                        'code' => $e->getStatusCode()
+                    ], $e->getStatusCode());
+                } else {
+                    if(!$request->is('admin/*')) 
+                        return redirect()->route('dashboard')->with('error', $e->getMessage());
+
+                    return redirect()->route('admin.login')->with('commonError', $e->getMessage());
+                }
             }
         });        
     })->create();

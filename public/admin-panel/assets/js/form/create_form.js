@@ -88,8 +88,7 @@ $('#create-dynamic-form').submit(function(e){
         processData : false,
         contentType:false,
         
-     success: function(response) {
-console.log(response)
+     success: function(response) {  
 			if (response.errors) {
 				Swal.fire({
 					text: response.msg,
@@ -108,7 +107,24 @@ console.log(response)
 			} else {
 				Swal.fire({
 					text: response.msg,
-					icon: "success",
+					icon: "error",
+					buttonsStyling: !1,
+					confirmButtonText:
+						"Ok",
+					customClass: {
+						confirmButton:
+							"btn btn-primary",
+					},
+				}).then(function (t) {
+					// location.reload();
+				});
+			}
+		},
+		error: function(response, status, error) {
+            if(response.status == 500) {
+                Swal.fire({
+					text: "Something went wrong. Please try again later.",
+					icon: "warning",
 					buttonsStyling: !1,
 					confirmButtonText:
 						"Ok",
@@ -119,9 +135,7 @@ console.log(response)
 				}).then(function (t) {
 					location.reload();
 				});
-			}
-		},
-		error: function(response, status, error) {
+            }
 			if(response.status == 422) { 
 				$.each(response.responseJSON.errors, function(field, errors){
 
@@ -129,12 +143,21 @@ console.log(response)
 
 					$('[name="'+ arrayStyleName +'"]').addClass('field_required');
 
-                    if(field == 'form_name') {
-                        $('<div class="fv-plugins-message-container invalid-feedback">'+ errors +'</div>').insertAfter($('[name="' + field +'"]')); 
-                    } 
-                    if(field == 'field') {
+                    if(field == 'form_name' || field == 'field') {
                         Swal.fire('Warning!', errors[0], 'error');
+                        $('<div class="fv-plugins-message-container invalid-feedback">'+ errors +'</div>').insertAfter($('[name="' + field +'"]'));
+                    } else {
+
+                        if($('[name="'+ arrayStyleName +'"]').is("select")) {
+                            $(('[name="'+arrayStyleName+'"')).parent().append('<div class="fv-plugins-message-container invalid-feedback">'+ errors +'</div>');
+
+                            $('span .field_type').addClass('field_required');
+                        } else {
+                            $('<div class="fv-plugins-message-container invalid-feedback">'+ errors +'</div>').insertAfter('[name="'+arrayStyleName+'"'); 
+                        }
+                        
                     }
+                        
 				});
 			} else if(response.status == 419) {
                 $('<div class="alert alert-danger">'+ response.responseJSON.message +'</div>').insertBefore('div.btn-div');
@@ -146,7 +169,7 @@ console.log(response)
             }
             setTimeout(function() {
                 $('div.invalid-feedback').remove();
-            }, 3000); 
+            }, 6000); 
 		}
       });
     } else {
