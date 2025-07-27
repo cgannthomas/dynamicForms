@@ -29,6 +29,9 @@ class AdminAuthController extends Controller
 
     public function getLogin()
     {
+        if(Auth::guard('admin')->user()) {
+            return redirect()->route('admin.dashboard');
+        }
         return view('admin.auth.login');
     }
 
